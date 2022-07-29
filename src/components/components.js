@@ -107,19 +107,19 @@ class WatchBox extends React.Component {
          previous()}>
        
          {this.props.value}
-         </button>
+         PREVIOUS</button>
 
         <button className ="theButton" id="play" onClick={() => console.log('play')}>
         {this.props.value}
-        </button>
+        PLAY</button>
 
-        <button className ="theButton" id="next" onClick={() => next()}>
+        <button className ="theButton"  value ="Next" id="next" onClick={() => next()}>
         {this.props.value}
-        </button>
+        NEXT</button>
 
         <button className ="theButton" id="Guide" onClick={() => console.log('guide')}>
         {this.props.value}
-        </button>
+        GUIDE</button>
       </div>
      
        );
