@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 
 const channels = {
 
@@ -14,9 +14,7 @@ console.log(channelList)
 var counter = 0;
 var link = "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1";
 
-this.state = {
-  mssg: link,
-};
+
 
 function previous(){
   if (counter == 0){
@@ -41,24 +39,31 @@ function next(){
      counter = 0;
      console.log(counter);
      console.log(link);
- 
+     
   }
    else{
      counter = counter + 1;
      link = channelList[counter];
      console.log(counter);
      console.log(link);
+
+
  
    }
 }
 
 class WatchBox extends React.Component {
+
+  state = {
+    mssg: link,
+  };
+
   render() { 
      return(
         <div className = "watchBox">
 
 
-      <iframe width ="100%"  height = "100%" src={link} title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe width ="100%"  height = "100%" src={this.state.mssg} title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
         </div>
