@@ -9,6 +9,7 @@ const channels = {
 }
 
 const channelList = Object.values(channels);
+
 console.log(channelList)
 var counter = 0;
 var link = "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1";
