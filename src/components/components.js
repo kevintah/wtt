@@ -23,18 +23,14 @@ function previous(){
      counter = channelList.length -1;
      console.log(counter);
      console.log(link);
-     this.setState({
-      mssg: link,
-});
+ 
   }
    else{
      counter = counter -1;
      link = channelList[counter];
      console.log(counter);
      console.log(link);
-     this.setState({
-      mssg: link,
-});
+ 
    }
 }
 
@@ -44,18 +40,14 @@ function next(){
      counter = 0;
      console.log(counter);
      console.log(link);
-     this.setState({
-      mssg: link,
-});
+ 
   }
    else{
      counter = counter + 1;
      link = channelList[counter];
      console.log(counter);
      console.log(link);
-     this.setState({
-      mssg: link,
-});
+ 
    }
 }
 
