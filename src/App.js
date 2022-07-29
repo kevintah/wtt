@@ -5,7 +5,7 @@ import {WatchBox, WatchButtons,VideoChatBox,BelowTv} from "./components/componen
 export default function App() {
   return (
 
-    <div clasName = "main">
+    <div className = "main">
       <h1>Watch Television Together - WTT </h1>
       <WatchBox name="Main-watch-box" />
       <WatchButtons name ="watch-buttons"/>

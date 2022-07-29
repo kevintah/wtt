@@ -1,12 +1,24 @@
 import React from "react";
+import {previous,next, channels,link} from "../channels/channels.js"
 
 class WatchBox extends React.Component {
+  state = {
+    mssg: link
+  };
+
+
+
+  
   render() { 
      return(
         <div className = "watchBox">
-        <p> </p>
+         <iframe width ="100%"  src={this.state.mssg} frameborder="0" controls="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         
         </div>
+        
+         
           ); 
+
         }
    }
 
@@ -16,7 +28,10 @@ class WatchBox extends React.Component {
        return (
 
         <div className = "buttons">
-         <button className ="theButton" id="previous" onClick={() => console.log('previous')}>
+         <button className ="theButton" id="previous" onClick={() => {
+          previous(channels) 
+          this.setState({ mssg: link });
+          console.log(this.state)}}>
          {this.props.value}
          </button>
 
@@ -24,7 +39,16 @@ class WatchBox extends React.Component {
         {this.props.value}
         </button>
 
-        <button className ="theButton" id="next" onClick={() => console.log('next')}>
+        <button className ="theButton" id="next" onClick={
+
+          () => {
+          next(channels) 
+          this.setState({ mssg: link });
+          console.log(this.state)
+          }
+          
+          
+          }>
         {this.props.value}
         </button>
 
