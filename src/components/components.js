@@ -2,6 +2,8 @@ import React from "react";
 import {previous,next, channels,link} from "../channels/channels.js"
 
 class WatchBox extends React.Component {
+
+
   state = {
     mssg: link
   };
