@@ -12,7 +12,7 @@ class WatchBox extends React.Component {
   render() { 
      return(
         <div className = "watchBox">
-         <iframe width ="100%"  src={this.state.mssg} frameborder="0" controls="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         <iframe width ="100%"  src={link} frameBorder="0" controls="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
          
         </div>
         
