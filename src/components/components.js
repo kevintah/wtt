@@ -1,10 +1,55 @@
 import React from "react";
 
+const channels = {
+
+     skyNews: "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1",
+     nbcNews: "https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1"
+}
+
+const channelList = Object.values(channels);
+console.log(channelList)
+var counter = 0;
+var link = ""
+
+function previous(){
+  if (counter == 0){
+     link = channelList[0]
+     counter = channelList.length -1;
+     console.log(counter);
+     console.log(link);
+  }
+   else{
+     counter = counter -1;
+     link = channelList[counter];
+     console.log(counter);
+     console.log(link);
+   }
+}
+
+function next(){
+  if (counter == channelList.length -1){
+     link = channelList[channelList.length -1]
+     counter = 0;
+     console.log(counter);
+     console.log(link);
+  }
+   else{
+     counter = counter + 1;
+     link = channelList[counter];
+     console.log(counter);
+     console.log(link);
+   }
+}
+
 class WatchBox extends React.Component {
   render() { 
      return(
         <div className = "watchBox">
-        <p> </p>
+
+
+      <iframe width="560" height="315" src={link} title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
         </div>
           ); 
         }
@@ -16,7 +61,9 @@ class WatchBox extends React.Component {
        return (
 
         <div className = "buttons">
-         <button className ="theButton" id="previous" onClick={() => console.log('previous')}>
+         <button className ="theButton" id="previous" onClick={() => 
+         previous()}>
+       
          {this.props.value}
          </button>
 
@@ -24,7 +71,7 @@ class WatchBox extends React.Component {
         {this.props.value}
         </button>
 
-        <button className ="theButton" id="next" onClick={() => console.log('next')}>
+        <button className ="theButton" id="next" onClick={() => next()}>
         {this.props.value}
         </button>
 
