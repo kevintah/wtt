@@ -1,35 +1,37 @@
-import React from "react";
+import React, { useState } from 'react';
 
 const channels = {
 
-     skyNews: "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1",
-     nbcNews: "https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1",
-     skyNews2: "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1",
-     nbcNews2: "https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1"
+     skyNews: '<iframe width ="100%"  height = "100%" src="https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1" title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+
+     nbcNews: '<iframe width ="100%"  height = "100%" src="https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1" title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+
+     skyNews2: '<iframe width ="100%"  height = "100%" src="https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1" title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
+
+     nbcNews2: '<iframe width ="100%"  height = "100%" src="https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1" title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
 }
 
-const channelList = Object.values(channels);
+var channelList = Object.values(channels);
 
 console.log(channelList)
 var counter = 0;
-var link = "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1";
+var link = "https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1";
 
-this.state = {
-  mssg: link,
-};
+
 
 function previous(){
   if (counter == 0){
-     link = channelList[0]
-     counter = channelList.length -1;
+    var iFrame = channelList[counter]
+    document.getElementById("watchBox").innerHTML = iFrame;     counter = channelList.length -1;
      console.log(counter);
      console.log(link);
  
   }
    else{
      counter = counter -1;
-     link = channelList[counter];
-     console.log(counter);
+     var iFrame = channelList[counter]
+
+     document.getElementById("watchBox").innerHTML = iFrame;     console.log(counter);
      console.log(link);
  
    }
@@ -39,23 +41,44 @@ function next(){
   if (counter == channelList.length -1){
      link = channelList[channelList.length -1]
      counter = 0;
+     //var iFrame = document.getElementById("watchBox").innerHTML;
+     var iFrame = channelList[counter]
+
+     document.getElementById("watchBox").innerHTML = iFrame;
+
+     
+
      console.log(counter);
      console.log(link);
- 
+     console.log(iFrame)
+     
   }
    else{
      counter = counter + 1;
-     link = channelList[counter];
+     var iFrame = channelList[counter]
+
+     document.getElementById("watchBox").innerHTML = iFrame;    
      console.log(counter);
      console.log(link);
+
+
  
    }
 }
 
 class WatchBox extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      mssg: "https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1",
+    };
+  }
+
+  
   render() { 
      return(
-        <div className = "watchBox">
+        <div id ="watchBox" className = "watchBox">
 
 
       <iframe width ="100%"  height = "100%" src={link} title="YouTube video player" frameborder="0"  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -68,6 +91,14 @@ class WatchBox extends React.Component {
 
 
    class WatchButtons extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        mssg:"https://www.youtube.com/embed/9Auq9mYxFEE?&autoplay=1",
+      };
+
+     
+    }
      render() {
        return (
 
@@ -76,19 +107,19 @@ class WatchBox extends React.Component {
          previous()}>
        
          {this.props.value}
-         </button>
+         PREVIOUS</button>
 
         <button className ="theButton" id="play" onClick={() => console.log('play')}>
         {this.props.value}
-        </button>
+        PLAY</button>
 
-        <button className ="theButton" id="next" onClick={() => next()}>
+        <button className ="theButton"  value ="Next" id="next" onClick={() => next()}>
         {this.props.value}
-        </button>
+        NEXT</button>
 
         <button className ="theButton" id="Guide" onClick={() => console.log('guide')}>
         {this.props.value}
-        </button>
+        GUIDE</button>
       </div>
      
        );
