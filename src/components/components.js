@@ -1,4 +1,38 @@
 import React, { useState } from 'react';
+import {Helmet} from "react-helmet";
+import { useEffect } from 'react';
+
+var url1 ="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js" ;
+
+var url2 = "https://cdn.jsdelivr.net/npm/pubnub-js-webrtc@latest/dist/pubnub-js-webrtc.js";
+
+const useScript = url => {
+  useEffect(() => {
+    const script = document.createElement('script');
+
+    script.src = url;
+    script.async = true;
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    }
+  }, [url]);
+};
+
+import useScript from 'hooks/useScript';
+
+props => {
+  useScript(url1);
+  useScript(url2);
+
+  useScript("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js");
+  useScript("https://cdn.pubnub.com/pubnub-3.7.14.min.js");
+  useScript("http://cdn.pubnub.com/webrtc/webrtc.js")
+  // rest of your component 
+}
+
 
 const channels = {
 
@@ -21,8 +55,9 @@ var link = "https://www.youtube.com/embed/UKvyMnTK5N0?&autoplay=1";
 
 function previous(){
   if (counter == 0){
-    var iFrame = channelList[counter]
-    document.getElementById("watchBox").innerHTML = iFrame;     counter = channelList.length -1;
+     var iFrame = channelList[counter]
+     document.getElementById("watchBox").innerHTML = iFrame;     
+     counter = channelList.length -1;
      console.log(counter);
      console.log(link);
  
@@ -126,19 +161,66 @@ class WatchBox extends React.Component {
      }
    }
 
+   
+  //
+  
+  
+
+ const constraints = { audio: true, video: { width:"200", height:"200" } };
+
+ navigator.mediaDevices.getUserMedia(constraints)
+ .then(function(mediaStream) {
+   const video = document.querySelector('video');
+   video.srcObject = mediaStream;
+   video.onloadedmetadata = function(e) {
+     video.play();
+   };
+ })
+ .catch((err) => {
+   // always check for errors at the end.
+   console.error(`${err.name}: ${err.message}`);
+ });
+
+
 
    
    class VideoChatBox extends React.Component {
+   
+    
+
     render(){
     return (
        
+     
+
 
       <div className = "chatArea">
-        <p>Chat Area </p>
-       </div>
-    );
+
+        <Helmet>
+        
+        </Helmet>
+
+
+        <div id="video"></div>
+        <video autoplay id="one"></video>
+        <video autoplay id="two"></video>
+        <button id="connect"> Start peer connection</button>
+        </div>
+
+         
+          );
     } 
+
+
   }
+
+
+
+
+  
+
+
+
   class BelowTv extends React.Component {
     render(){
     return (
