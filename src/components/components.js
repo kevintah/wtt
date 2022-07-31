@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import {Helmet} from "react-helmet";
 import { useEffect } from 'react';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase, ref, set, onValue} from "firebase/database";
 
 
 
@@ -161,8 +164,11 @@ class WatchBox extends React.Component {
     return (
        
      
- 
+  
   <body class="chatArea" onload="showMyFace()">
+    <Helmet>
+      <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+      </Helmet>
     <video class="video1" id="yourVideo" autoplay muted playsinline></video>
     <video class="video1"  id="friendsVideo" autoplay playsinline></video>
     <br />
@@ -179,6 +185,9 @@ class WatchBox extends React.Component {
 
   }
 
+
+  
+
  // video chat
   //Create an account on Firebase, and use the credentials they give you in place of the following
   var config = {
@@ -191,8 +200,80 @@ class WatchBox extends React.Component {
     appId: "1:946546335937:web:211851221c251f072ef440",
     measurementId: "G-TQGZDLT8XW"
   };
+
+var app = initializeApp(config);
+var database = getDatabase(app);
+console.log(database);
+//const analytics = getAnalytics(app);
   
-  
+//firebase.initializeApp(config);
+
+//var database = firebase.database().ref();
+//var database = db.ref;
+
+//var database = database.ref();
+
+var yourVideo = document.getElementById("yourVideo");
+var friendsVideo = document.getElementById("friendsVideo");
+var yourId = Math.floor(Math.random()*1000000000);
+var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}]};
+var pc = new RTCPeerConnection(servers);
+pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
+pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
+
+
+
+
+function sendMessage(senderId, data) {
+  const database = getDatabase(app);
+  set(ref(database, 'sender' + senderId), {
+    message: data,
+   
+  });
+}
+
+
+
+function readMessage(data) {
+  var msg = JSON.parse(data.val().message);
+  var sender = data.val().sender;
+  if (sender != yourId) {
+    if (msg.ice != undefined)
+      pc.addIceCandidate(new RTCIceCandidate(msg.ice));
+    else if (msg.sdp.type == "offer")
+      pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
+        .then(() => pc.createAnswer())
+        .then(answer => pc.setLocalDescription(answer))
+        .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
+    else if (msg.sdp.type == "answer")
+      pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+  }
+};
+
+
+
+var c_add = ref(database, 'child_added' , readMessage);
+ c_add;
+ console.log(c_add);
+
+
+function showMyFace() {
+  navigator.mediaDevices.getUserMedia({audio:true, video:true})
+    .then(stream => yourVideo.srcObject = stream)
+    .then(stream => pc.addStream(stream));
+}
+
+
+
+function showFriendsFace() {
+  pc.createOffer()
+    .then(offer => pc.setLocalDescription(offer) )
+    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
+}
+
+
+
+
 
   class BelowTv extends React.Component {
     render(){
