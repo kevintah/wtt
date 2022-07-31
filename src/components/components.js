@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {Helmet} from "react-helmet";
 import { useEffect } from 'react';
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
 
-var url1 ="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js" ;
 
-var url2 = "https://cdn.jsdelivr.net/npm/pubnub-js-webrtc@latest/dist/pubnub-js-webrtc.js";
 
 const useScript = url => {
   useEffect(() => {
@@ -21,17 +21,6 @@ const useScript = url => {
   }, [url]);
 };
 
-import useScript from 'hooks/useScript';
-
-props => {
-  useScript(url1);
-  useScript(url2);
-
-  useScript("https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js");
-  useScript("https://cdn.pubnub.com/pubnub-3.7.14.min.js");
-  useScript("http://cdn.pubnub.com/webrtc/webrtc.js")
-  // rest of your component 
-}
 
 
 const channels = {
@@ -179,7 +168,6 @@ class WatchBox extends React.Component {
     <video class="video1"  id="friendsVideo" autoplay playsinline></video>
     <br />
     <button class="button1" onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Call</button>
-    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
   </body>
 
 
@@ -205,64 +193,7 @@ class WatchBox extends React.Component {
     measurementId: "G-TQGZDLT8XW"
   };
   
-  //firebase.initializeApp(config)
   
-  if(!firebase){
-  firebase.initializeApp(config);
-  }
-  
-  
-  
-var database = firebase.database().ref();
-var yourVideo = document.getElementById("yourVideo");
-console.log(yourVideo);
-var friendsVideo = document.getElementById("friendsVideo");
-var yourId = Math.floor(Math.random()*1000000000);
-//Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
-var servers = {'iceServers': [{'urls': 'stun:stun.services.mozilla.com'}, {'urls': 'stun:stun.l.google.com:19302'}, {'urls': 'turn:numb.viagenie.ca','credential': 'beaver','username': 'webrtc.websitebeaver@gmail.com'}]};
-var pc = new RTCPeerConnection(servers);
-//console.log(pc)
-pc.onicecandidate = (event => event.candidate?sendMessage(yourId, JSON.stringify({'ice': event.candidate})):console.log("Sent All Ice") );
-pc.onaddstream = (event => friendsVideo.srcObject = event.stream);
-
-function sendMessage(senderId, data) {
-    var msg = database.push({ sender: senderId, message: data });
-    msg.remove();
-}
-
-function readMessage(data) {
-    var msg = JSON.parse(data.val().message);
-    var sender = data.val().sender;
-    if (sender != yourId) {
-        if (msg.ice != undefined)
-            pc.addIceCandidate(new RTCIceCandidate(msg.ice));
-        else if (msg.sdp.type == "offer")
-            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp))
-              .then(() => pc.createAnswer())
-              .then(answer => pc.setLocalDescription(answer))
-              .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})));
-        else if (msg.sdp.type == "answer")
-            pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
-    }
-};
-
-database.on('child_added', readMessage);
-
-function showMyFace() {
-  navigator.mediaDevices.getUserMedia({audio:true, video:true})
-    .then(stream => yourVideo.srcObject = stream)
-    .then(stream => pc.addStream(stream));
-}
-
-
-function showFriendsFace() {
-  console.log('showing friends');
-  pc.createOffer()
-    .then(offer => pc.setLocalDescription(offer) )
-    .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
-}
-
-
 
   class BelowTv extends React.Component {
     render(){
