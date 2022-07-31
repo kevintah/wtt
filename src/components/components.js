@@ -173,23 +173,17 @@ class WatchBox extends React.Component {
     return (
        
      
+ 
+  <body class="chatArea" onload="showMyFace()">
+    <video class="video1" id="yourVideo" autoplay muted playsinline></video>
+    <video class="video1"  id="friendsVideo" autoplay playsinline></video>
+    <br />
+    <button class="button1" onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Call</button>
+    <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
+  </body>
 
 
-      <div className = "chatArea">
 
-        <div onload="showMyFace()">
-            <video class ="video1" id="yourVideo" autoplay muted playsinline></video>
-            <video class ="video1" id="friendsVideo" autoplay playsinline></video>
-            <br />
-            <button class ="button1" onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Call</button>
-          </div>
-
-        <Helmet>
-
-        </Helmet>
-
-
-        </div>
 
          
           );
@@ -267,15 +261,6 @@ function showFriendsFace() {
     .then(offer => pc.setLocalDescription(offer) )
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
-
-
-
-  
-  
-  
-
-
-  
 
 
 
