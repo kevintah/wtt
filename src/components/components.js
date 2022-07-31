@@ -161,28 +161,6 @@ class WatchBox extends React.Component {
      }
    }
 
-   
-  // video chat
-  //Create an account on Firebase, and use the credentials they give you in place of the following
-var config = {
-  apiKey: "AIzaSyDPxd4u5sn5K6L5a-dGeeJLoa7aiWHUNRc",
-  authDomain: "wtt-projec.firebaseapp.com",
-  projectId: "wtt-projec",
-  databaseURL: "https://simple-webrtc-video-chat.firebaseio.com",
-  storageBucket: "wtt-projec.appspot.com",
-  messagingSenderId: "946546335937",
-  appId: "1:946546335937:web:211851221c251f072ef440",
-  measurementId: "G-TQGZDLT8XW"
-};
-
-//firebase.initializeApp({}, 'wtt-2')
-if(!firebase.app.length){
-firebase.initializeApp(config);
-}
-
-
-
-
 
 
 
@@ -207,7 +185,6 @@ firebase.initializeApp(config);
           </div>
 
         <Helmet>
-        <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
 
         </Helmet>
 
@@ -221,11 +198,30 @@ firebase.initializeApp(config);
 
   }
 
-
-
-
+ // video chat
+  //Create an account on Firebase, and use the credentials they give you in place of the following
+  var config = {
+    apiKey: "AIzaSyDPxd4u5sn5K6L5a-dGeeJLoa7aiWHUNRc",
+    authDomain: "wtt-projec.firebaseapp.com",
+    projectId: "wtt-projec",
+    storageBucket: "wtt-projec.appspot.com",
+    databaseURL: "https://wtt-projec-default-rtdb.firebaseio.com/",
+    messagingSenderId: "946546335937",
+    appId: "1:946546335937:web:211851221c251f072ef440",
+    measurementId: "G-TQGZDLT8XW"
+  };
+  
+  //firebase.initializeApp(config)
+  
+  if(!firebase){
+  firebase.initializeApp(config);
+  }
+  
+  
+  
 var database = firebase.database().ref();
 var yourVideo = document.getElementById("yourVideo");
+console.log(yourVideo);
 var friendsVideo = document.getElementById("friendsVideo");
 var yourId = Math.floor(Math.random()*1000000000);
 //Create an account on Viagenie (http://numb.viagenie.ca/), and replace {'urls': 'turn:numb.viagenie.ca','credential': 'websitebeaver','username': 'websitebeaver@email.com'} with the information from your account
@@ -266,12 +262,17 @@ function showMyFace() {
 
 
 function showFriendsFace() {
+  console.log('showing friends');
   pc.createOffer()
     .then(offer => pc.setLocalDescription(offer) )
     .then(() => sendMessage(yourId, JSON.stringify({'sdp': pc.localDescription})) );
 }
 
 
+
+  
+  
+  
 
 
   
