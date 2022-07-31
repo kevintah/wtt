@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {Helmet} from "react-helmet";
 import { useEffect } from 'react';
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+
 
 
 
