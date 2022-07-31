@@ -166,20 +166,6 @@ class WatchBox extends React.Component {
   
   
 
- const constraints = { audio: true, video: { width:"200", height:"200" } };
-
- navigator.mediaDevices.getUserMedia(constraints)
- .then(function(mediaStream) {
-   const video = document.querySelector('video');
-   video.srcObject = mediaStream;
-   video.onloadedmetadata = function(e) {
-     video.play();
-   };
- })
- .catch((err) => {
-   // always check for errors at the end.
-   console.error(`${err.name}: ${err.message}`);
- });
 
 
 
@@ -201,10 +187,6 @@ class WatchBox extends React.Component {
         </Helmet>
 
 
-        <div id="video"></div>
-        <video autoplay id="one"></video>
-        <video autoplay id="two"></video>
-        <button id="connect"> Start peer connection</button>
         </div>
 
          
