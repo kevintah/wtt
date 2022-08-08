@@ -169,8 +169,8 @@ class WatchBox extends React.Component {
     <Helmet>
       <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
       </Helmet>
-    <video class="video1" id="yourVideo" autoplay muted playsinline></video>
-    <video class="video1"  id="friendsVideo" autoplay playsinline></video>
+    <video class="videoCam" id="localVideo" autoplay playsinline controls="false"/>
+    <video class="videoCam"  id="remoteVideo" autoplay playsinline></video>
     <br />
     <button class="button1" onclick="showFriendsFace()" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span> Call</button>
   </body>
@@ -202,7 +202,25 @@ class WatchBox extends React.Component {
   };
 
 
+// Get local video
+// Prefer camera resolution nearest to 1280x720.
+const constraints = {
+  audio: false,
+  video: { width: 1280, height: 720 }
+};
 
+navigator.mediaDevices.getUserMedia(constraints)
+  .then((mediaStream) => {
+    const video = document.querySelector('video');
+    video.srcObject = mediaStream;
+    video.onloadedmetadata = () => {
+      video.play();
+    };
+  })
+  .catch((err) => {
+    // always check for errors at the end.
+    console.error(`${err.name}: ${err.message}`);
+  });
 
 
 
